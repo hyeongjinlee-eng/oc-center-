@@ -1,0 +1,444 @@
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="preconnect" href="https://cdn.jsdelivr.net">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&display=swap">
+
+<style>
+  :root{
+    --ink:#16202E;--ink-soft:#475063;--paper:#EEF1F4;--card:#FFFFFF;
+    --line:#D6DCE3;--line-soft:#E6EAEF;--blue:#1F4FB0;--blue-deep:#163C86;
+    --blue-tint:#EAF0FB;--grid:#DDE4EC;--ok:#1E7A52;--ok-tint:#E6F3EC;
+    --warn:#9A5B00;--warn-tint:#FBF1E1;--radius:4px;--maxw:760px;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    font-family:"Pretendard",-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Malgun Gothic",sans-serif;
+    color:var(--ink);background-color:var(--paper);
+    background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);
+    background-size:28px 28px;background-position:-1px -1px;line-height:1.6;-webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:var(--maxw);margin:0 auto;padding:32px 18px 80px;}
+
+  .masthead{background:var(--ink);color:#fff;border-radius:var(--radius) var(--radius) 0 0;padding:30px 30px 26px;position:relative;overflow:hidden;}
+  .masthead::after{content:"";position:absolute;right:-40px;top:-40px;width:180px;height:180px;
+    background-image:linear-gradient(rgba(255,255,255,.10) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.10) 1px,transparent 1px);
+    background-size:18px 18px;}
+  .brand{font-family:"JetBrains Mono",monospace;letter-spacing:.32em;font-size:11px;font-weight:500;color:#9DB6E8;text-transform:uppercase;margin-bottom:14px;}
+  .masthead h1{font-size:26px;line-height:1.3;font-weight:700;margin:0 0 10px;letter-spacing:-.01em;}
+  .masthead p{margin:0;color:#C7CFDC;font-size:14px;max-width:48ch;}
+  .docref{margin-top:18px;display:flex;gap:8px;align-items:center;font-family:"JetBrains Mono",monospace;font-size:11px;color:#8FA6CF;border-top:1px solid rgba(255,255,255,.14);padding-top:14px;width:100%;}
+
+  .brief{background:var(--card);border:1px solid var(--line);border-top:none;border-radius:0 0 var(--radius) var(--radius);padding:26px 30px 28px;margin-bottom:24px;}
+  .brief h2{font-size:13px;font-weight:700;letter-spacing:.04em;color:var(--blue-deep);margin:0 0 14px;display:flex;align-items:center;gap:9px;}
+  .brief h2::before{content:"";width:16px;height:2px;background:var(--blue);display:inline-block;}
+  .brief p{margin:0 0 13px;font-size:14.5px;color:var(--ink-soft);}
+  .brief p strong{color:var(--ink);font-weight:600;}
+  .facts{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:18px 0 4px;}
+  .fact{border:1px solid var(--line-soft);border-left:3px solid var(--blue);border-radius:var(--radius);padding:11px 13px;background:#FBFCFE;}
+  .fact .k{font-family:"JetBrains Mono",monospace;font-size:10px;letter-spacing:.08em;color:var(--blue);text-transform:uppercase;}
+  .fact .v{font-size:14px;font-weight:600;color:var(--ink);margin-top:3px;}
+  .period{display:flex;align-items:center;gap:16px;flex-wrap:wrap;background:var(--blue-tint);border:1px solid #C5D6F2;border-left:4px solid var(--blue);border-radius:var(--radius);padding:15px 20px;margin-bottom:22px;}
+  .period .plabel{font-family:"JetBrains Mono",monospace;font-size:10px;letter-spacing:.12em;color:var(--blue);text-transform:uppercase;flex:none;}
+  .period .pdate{font-size:19px;font-weight:700;color:var(--blue-deep);letter-spacing:-.01em;}
+  .period .pnote{font-size:12px;color:var(--ink-soft);margin-left:auto;}
+  @media (max-width:560px){.period .pnote{margin-left:0;width:100%;}}
+
+  .q{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:22px 24px;margin-bottom:14px;}
+  .q-head{display:flex;gap:12px;align-items:baseline;margin-bottom:14px;}
+  .q-num{font-family:"JetBrains Mono",monospace;font-size:12px;font-weight:500;color:#fff;background:var(--ink);border-radius:3px;padding:2px 7px;flex:none;line-height:1.5;}
+  .q-title{font-size:15.5px;font-weight:600;color:var(--ink);line-height:1.45;}
+  .req{color:var(--blue);font-size:12px;font-weight:700;margin-left:5px;}
+  .opt-label{font-size:12px;color:var(--ink-soft);font-weight:400;margin-left:5px;}
+  .q-hint{font-size:12.5px;color:var(--ink-soft);margin:-6px 0 12px 36px;}
+
+  .opts{display:flex;flex-direction:column;gap:8px;}
+  .opt{display:flex;align-items:center;gap:11px;border:1px solid var(--line);border-radius:var(--radius);padding:12px 14px;cursor:pointer;font-size:14.5px;color:var(--ink);transition:border-color .12s,background .12s;user-select:none;}
+  .opt:hover{border-color:var(--blue);background:#FAFBFE;}
+  .opt input{accent-color:var(--blue);width:16px;height:16px;flex:none;margin:0;}
+  .opt.checked{border-color:var(--blue);background:var(--blue-tint);}
+
+  .field{display:flex;flex-direction:column;gap:7px;}
+  .field + .field{margin-top:14px;}
+  .grid2 .field + .field{margin-top:0;}
+  .field label{font-size:13px;font-weight:600;color:var(--ink);}
+  input[type=text],input[type=tel],input[type=email],input[type=date],textarea{
+    font-family:inherit;font-size:14.5px;color:var(--ink);border:1px solid var(--line);border-radius:var(--radius);padding:11px 13px;background:#fff;width:100%;}
+  input:focus,textarea:focus{outline:2px solid var(--blue);outline-offset:-1px;border-color:var(--blue);}
+  textarea{resize:vertical;min-height:80px;}
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+
+  /* terms */
+  .terms{background:#FBFCFE;border:1px solid var(--line-soft);border-radius:var(--radius);padding:14px 16px;margin-bottom:14px;}
+  .terms li{font-size:13px;color:var(--ink-soft);margin-bottom:7px;}
+  .terms li:last-child{margin-bottom:0;}
+  .terms b{color:var(--ink);font-weight:600;}
+  .agree{display:flex;align-items:flex-start;gap:10px;border:1px solid var(--line);border-radius:var(--radius);padding:12px 14px;cursor:pointer;font-size:14px;color:var(--ink);user-select:none;}
+  .agree + .agree{margin-top:8px;}
+  .agree:hover{border-color:var(--blue);}
+  .agree input{accent-color:var(--blue);width:16px;height:16px;flex:none;margin-top:2px;}
+  .agree.checked{border-color:var(--blue);background:var(--blue-tint);}
+
+  .err{color:#B42318;font-size:12.5px;margin-top:8px;display:none;}
+  .q.invalid{border-color:#E8B4AE;}
+  .q.invalid .err{display:block;}
+
+  .submit-row{margin-top:22px;}
+  .btn{font-family:inherit;font-size:15px;font-weight:600;cursor:pointer;border:none;border-radius:var(--radius);padding:14px 26px;transition:background .12s;}
+  .btn-primary{background:var(--blue);color:#fff;width:100%;}
+  .btn-primary:hover{background:var(--blue-deep);}
+  .btn-primary:disabled{background:#9AAFD6;cursor:default;}
+  .privacy{font-size:11.5px;color:var(--ink-soft);text-align:center;margin-top:12px;}
+
+  .thanks{background:var(--card);border:1px solid var(--line);border-top:4px solid var(--ok);border-radius:var(--radius);padding:40px 30px;text-align:center;display:none;}
+  .thanks .mark{width:46px;height:46px;border-radius:50%;background:var(--ok-tint);color:var(--ok);display:flex;align-items:center;justify-content:center;margin:0 auto 16px;font-size:24px;}
+  .thanks h2{font-size:20px;margin:0 0 8px;color:var(--ink);}
+  .thanks p{margin:0 auto;color:var(--ink-soft);font-size:14px;max-width:42ch;}
+
+  .admin{margin-top:42px;border-top:1px dashed var(--line);padding-top:26px;}
+  .admin-toggle{font-family:"JetBrains Mono",monospace;font-size:11px;letter-spacing:.12em;color:var(--ink-soft);background:none;border:none;cursor:pointer;text-transform:uppercase;display:flex;align-items:center;gap:8px;padding:0;}
+  .admin-toggle:hover{color:var(--blue);}
+  .admin-panel{display:none;margin-top:18px;}
+  .admin-login{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:20px 22px;display:flex;gap:10px;align-items:flex-end;flex-wrap:wrap;}
+  .admin-login .field{flex:1;min-width:200px;}
+  input[type=password]{font-family:inherit;font-size:14.5px;color:var(--ink);border:1px solid var(--line);border-radius:var(--radius);padding:11px 13px;background:#fff;width:100%;}
+  .btn-dark{background:var(--ink);color:#fff;}
+  .btn-dark:hover{background:#000;}
+  .btn-ghost{background:#fff;color:var(--ink);border:1px solid var(--line);}
+  .btn-ghost:hover{border-color:var(--blue);color:var(--blue);}
+  .login-err{color:#B42318;font-size:12.5px;width:100%;display:none;}
+
+  .dash{display:none;}
+  .dash-bar{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:18px;align-items:center;}
+  .dash-bar .count{font-size:13px;color:var(--ink-soft);margin-right:auto;}
+  .dash-bar .count b{color:var(--ink);font-size:15px;}
+  .stats{display:grid;grid-template-columns:1fr;gap:12px;margin-bottom:18px;}
+  .stat{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:16px 18px;}
+  .stat h4{margin:0 0 12px;font-size:11px;letter-spacing:.06em;color:var(--blue);text-transform:uppercase;font-family:"JetBrains Mono",monospace;}
+  .barline{display:flex;align-items:center;gap:9px;margin-bottom:8px;font-size:13px;}
+  .barline .lbl{flex:none;min-width:90px;color:var(--ink-soft);}
+  .barline .track{flex:1;height:8px;background:var(--line-soft);border-radius:99px;overflow:hidden;}
+  .barline .fill{height:100%;background:var(--blue);border-radius:99px;}
+  .barline .n{flex:none;font-family:"JetBrains Mono",monospace;font-size:12px;color:var(--ink);}
+
+  .tbl-scroll{overflow-x:auto;border:1px solid var(--line);border-radius:var(--radius);background:#fff;}
+  table{border-collapse:collapse;width:100%;font-size:12.5px;min-width:720px;}
+  th,td{text-align:left;padding:9px 11px;border-bottom:1px solid var(--line-soft);vertical-align:top;}
+  th{background:#F4F6F9;font-weight:600;color:var(--ink);position:sticky;top:0;font-size:11.5px;white-space:nowrap;}
+  td{color:var(--ink-soft);}
+  tr:last-child td{border-bottom:none;}
+  .empty{padding:30px;text-align:center;color:var(--ink-soft);font-size:13px;}
+
+  @media (max-width:560px){
+    .wrap{padding:20px 12px 60px;}
+    .masthead,.brief{padding-left:20px;padding-right:20px;}
+    .q{padding:18px 16px;}
+    .facts,.grid2,.stats{grid-template-columns:1fr;}
+    .q-hint{margin-left:0;}
+    .masthead h1{font-size:22px;}
+  }
+  @media (prefers-reduced-motion:reduce){*{transition:none!important;}}
+</style>
+
+<div class="wrap">
+
+  <header class="masthead">
+    <div class="brand">FURSYS · 영업지원 서비스</div>
+    <h1>OC 영업지원 서비스<br>이용 신청서</h1>
+    <p>아래 내용을 작성하고 제출하시면 영업지원 서비스 이용 신청이 접수됩니다.</p>
+    <div class="docref"><span>REF. OC 영업지원 서비스 위탁 운영</span></div>
+  </header>
+
+  <section class="brief">
+    <div class="period">
+      <span class="plabel">계약기간</span>
+      <span class="pdate">2026.07.01 ~ 2027.05.31</span>
+      <span class="pnote">서비스 개시 2026년 7월 1일 · 기간 만료 시 재계약으로 연장</span>
+    </div>
+    <h2>서비스 안내</h2>
+    <p>기존 OC센터 제도 폐지에 따라, 본사가 전문 위탁 운영사를 통해 <strong>영업지원 서비스</strong>를 새롭게 제공합니다. 전담 인력이 <strong>도면 작성·CAD 지원, 3D 공간 플래닝, 영업 제안 자료</strong> 등 영업 현장에서 손이 많이 가는 업무를 대신 처리합니다.</p>
+    <p>이용을 원하시는 OC는 아래 신청서를 작성해 주세요. 제출 시 이용 신청이 정식으로 접수되며, 본사 담당자가 계약 절차를 안내드립니다.</p>
+    <div class="facts">
+      <div class="fact"><div class="k">월 이용료</div><div class="v">220,000원 <span style="font-weight:400;font-size:12px;color:var(--ink-soft)">(부가세 포함)</span></div></div>
+      <div class="fact"><div class="k">납부일</div><div class="v">매월 25일</div></div>
+      <div class="fact"><div class="k">서비스 개시</div><div class="v">2026년 7월 1일</div></div>
+      <div class="fact"><div class="k">운영 장소</div><div class="v">본사 가락빌딩 9층</div></div>
+    </div>
+  </section>
+
+  <form id="applyForm" novalidate>
+
+    <div class="q" data-q="q1">
+      <div class="q-head"><span class="q-num">01</span><span class="q-title">신청 OC 정보<span class="req">필수</span></span></div>
+      <div class="grid2">
+        <div class="field"><label>OC명</label><input type="text" name="oc_name" placeholder="예: 홍길동OC"></div>
+        <div class="field"><label>사업자등록번호 <span class="opt-label">세금계산서 발행용</span></label><input type="text" name="biz_no" placeholder="000-00-00000"></div>
+      </div>
+      <div class="err">OC명과 사업자등록번호를 모두 입력해 주세요.</div>
+    </div>
+
+    <div class="q" data-q="q2">
+      <div class="q-head"><span class="q-num">02</span><span class="q-title">연락처<span class="req">필수</span></span></div>
+      <div class="q-hint">계약 안내와 서비스 응대를 위한 연락처입니다.</div>
+      <div class="grid2">
+        <div class="field"><label>연락처 (휴대전화)</label><input type="tel" name="phone" placeholder="010-0000-0000"></div>
+        <div class="field"><label>이메일</label><input type="email" name="email" placeholder="name@example.com"></div>
+      </div>
+      <div class="err">연락처와 이메일을 정확히 입력해 주세요.</div>
+    </div>
+
+    <div class="q" data-q="q4">
+      <div class="q-head"><span class="q-num">03</span><span class="q-title">주로 이용할 지원 업무 <span class="opt-label">선택 · 복수 가능</span></span></div>
+      <div class="q-hint">운영사가 인력·자원을 준비하는 데 참고합니다.</div>
+      <div class="opts" data-name="needs" data-type="checkbox">
+        <label class="opt"><input type="checkbox" name="needs" value="도면 작성"><span>도면 작성</span></label>
+        <label class="opt"><input type="checkbox" name="needs" value="CAD 도면 지원"><span>CAD 도면 지원</span></label>
+        <label class="opt"><input type="checkbox" name="needs" value="3D 공간 플래닝"><span>3D 공간 플래닝 · 렌더링</span></label>
+        <label class="opt"><input type="checkbox" name="needs" value="견적 산출"><span>견적 산출</span></label>
+        <label class="opt"><input type="checkbox" name="needs" value="제안서·발표자료"><span>제안서 · 프레젠테이션 자료</span></label>
+        <label class="opt"><input type="checkbox" name="needs" value="제품 사양 확인"><span>제품 사양 · 스펙 확인</span></label>
+        <label class="opt"><input type="checkbox" name="needs" value="기타"><span>기타</span></label>
+      </div>
+    </div>
+
+    <div class="q" data-q="q5">
+      <div class="q-head"><span class="q-num">04</span><span class="q-title">요청사항 <span class="opt-label">선택</span></span></div>
+      <div class="field"><textarea name="request" placeholder="서비스 이용과 관련해 미리 전달할 내용이 있으면 적어주세요."></textarea></div>
+    </div>
+
+    <div class="q" data-q="q6">
+      <div class="q-head"><span class="q-num">05</span><span class="q-title">이용 조건 확인 및 동의<span class="req">필수</span></span></div>
+      <ul class="terms">
+        <li><b>월 이용료 220,000원</b>(공급가 200,000원 + 부가세 20,000원)을 <b>매월 25일까지</b> 납부합니다.</li>
+        <li>계약기간은 <b>2026.07.01 ~ 2027.05.31</b>이며, 기간 만료 시 자동 종료되고 재계약을 통해 연장됩니다.</li>
+        <li>세부 이용 계약은 신청 접수 후 본사 담당자를 통해 별도로 체결됩니다.</li>
+      </ul>
+      <label class="agree"><input type="checkbox" name="agree_terms"><span>위 이용 조건을 확인하였으며 이에 동의합니다.</span></label>
+      <label class="agree"><input type="checkbox" name="agree_privacy"><span>계약 안내 및 서비스 제공을 위한 신청 정보 수집·이용에 동의합니다.</span></label>
+      <div class="err">이용 조건과 정보 수집에 모두 동의해 주세요.</div>
+    </div>
+
+    <div class="submit-row">
+      <button type="submit" class="btn btn-primary" id="submitBtn">이용 신청하기</button>
+      <div class="privacy">제출하신 신청 정보는 본사 담당 관리자만 열람합니다.</div>
+    </div>
+  </form>
+
+  <div class="thanks" id="thanks">
+    <div class="mark">✓</div>
+    <h2>이용 신청이 접수되었습니다</h2>
+    <p>신청해 주셔서 감사합니다. 본사 담당자가 계약 절차와 서비스 개시 일정을 안내드리겠습니다.</p>
+  </div>
+
+  <section class="admin">
+    <button class="admin-toggle" id="adminToggle">▸ 관리자 영역</button>
+    <div class="admin-panel" id="adminPanel">
+      <div class="admin-login" id="adminLogin">
+        <div class="field"><label>관리자 비밀번호</label><input type="password" id="pw" placeholder="비밀번호를 입력하세요" autocomplete="off"></div>
+        <button class="btn btn-dark" id="loginBtn">열람</button>
+        <div class="login-err" id="loginErr">비밀번호가 일치하지 않습니다.</div>
+      </div>
+      <div class="dash" id="dash">
+        <div class="dash-bar">
+          <div class="count">전체 신청 <b id="totalCount">0</b>건</div>
+          <button class="btn btn-ghost" id="refreshBtn" style="padding:9px 16px;font-size:13px;">새로고침</button>
+          <button class="btn btn-ghost" id="csvBtn" style="padding:9px 16px;font-size:13px;">CSV 내려받기</button>
+        </div>
+        <div class="stats" id="stats"></div>
+        <div class="tbl-scroll" id="tblWrap"></div>
+      </div>
+    </div>
+  </section>
+
+</div>
+
+<script>
+/* ============================================================
+   관리자 비밀번호 — 이 값을 원하는 비밀번호로 바꿔 사용하세요.
+   ============================================================ */
+const ADMIN_PASSWORD = "fursys-oc-2026";
+const KEY_PREFIX = "oc_apply:";   /* shared=true → 모든 신청이 한 곳에 모입니다 */
+
+/* ============================================================
+   구글시트 연동 — 아래 따옴표 안에 Apps Script 웹 앱 URL을 붙여넣으면
+   신청 내용이 구글시트에 한 줄씩 쌓입니다. (비워두면 기기 내 백업에만 저장)
+   ============================================================ */
+const SHEET_ENDPOINT = "https://script.google.com/macros/s/AKfycbxFaivhkosIDpgD6qauG9rZUVQAF6VI5PutHBQqwSTVTpzBX_qUrjniQctSWyqJ-hNc/exec";
+
+/* 선택 강조 */
+document.querySelectorAll(".opt input, .agree input").forEach(function(inp){
+  inp.addEventListener("change", function(){
+    const box = inp.closest(".opt") || inp.closest(".agree");
+    if(box.classList.contains("opt") || box.classList.contains("agree")){
+      box.classList.toggle("checked", inp.checked);
+    }
+    inp.closest(".q").classList.remove("invalid");
+  });
+});
+document.querySelectorAll("#applyForm input[type=text],#applyForm input[type=tel],#applyForm input[type=email],#applyForm input[type=date]").forEach(function(t){
+  t.addEventListener("input", function(){ t.closest(".q").classList.remove("invalid"); });
+});
+
+const form = document.getElementById("applyForm");
+const submitBtn = document.getElementById("submitBtn");
+function getText(name){ const el = form.querySelector('[name="'+name+'"]'); return el ? el.value.trim() : ""; }
+function getChecks(name){ return Array.from(form.querySelectorAll('input[name="'+name+'"]:checked')).map(function(e){return e.value;}); }
+function isChecked(name){ const el = form.querySelector('input[name="'+name+'"]'); return el ? el.checked : false; }
+
+form.addEventListener("submit", async function(e){
+  e.preventDefault();
+  document.querySelectorAll(".q.invalid").forEach(function(q){q.classList.remove("invalid");});
+  let ok = true, firstBad = null;
+  function fail(sel){ const q = form.querySelector(sel); q.classList.add("invalid"); ok=false; firstBad = firstBad||q; }
+
+  if(!getText("oc_name") || !getText("biz_no")) fail('[data-q="q1"]');
+  const email = getText("email");
+  if(!getText("phone") || !email || email.indexOf("@") < 1) fail('[data-q="q2"]');
+  if(!isChecked("agree_terms") || !isChecked("agree_privacy")) fail('[data-q="q6"]');
+
+  if(!ok){ firstBad.scrollIntoView({behavior:"smooth", block:"center"}); return; }
+
+  const entry = {
+    oc_name:getText("oc_name"), biz_no:getText("biz_no"),
+    phone:getText("phone"), email:getText("email"),
+    needs:getChecks("needs"), request:getText("request"),
+    agree_terms:true, agree_privacy:true, submitted_at:new Date().toISOString()
+  };
+
+  submitBtn.disabled = true; submitBtn.textContent = "접수 중…";
+
+  // 1) 구글시트로 전송 (SHEET_ENDPOINT가 설정된 경우)
+  if(SHEET_ENDPOINT){
+    try{
+      const fd = new URLSearchParams();
+      fd.append("oc_name", entry.oc_name);
+      fd.append("biz_no", entry.biz_no);
+      fd.append("phone", entry.phone);
+      fd.append("email", entry.email);
+      fd.append("needs", (entry.needs||[]).join(" / "));
+      fd.append("request", entry.request);
+      await fetch(SHEET_ENDPOINT, { method:"POST", mode:"no-cors", body:fd });
+    }catch(err){ /* 전송 실패 시 아래 기기 내 백업으로 보존 */ }
+  }
+
+  // 2) 기기 내 백업 저장 (관리자 영역에서 열람 가능)
+  const key = KEY_PREFIX + Date.now() + "_" + Math.random().toString(36).slice(2,8);
+  try{ await window.storage.set(key, JSON.stringify(entry), true); }catch(err){}
+
+  form.style.display = "none";
+  const t = document.getElementById("thanks");
+  t.style.display = "block";
+  t.scrollIntoView({behavior:"smooth", block:"center"});
+});
+
+/* 관리자 */
+const adminToggle = document.getElementById("adminToggle");
+const adminPanel  = document.getElementById("adminPanel");
+adminToggle.addEventListener("click", function(){
+  const open = adminPanel.style.display === "block";
+  adminPanel.style.display = open ? "none" : "block";
+  adminToggle.textContent = (open ? "▸" : "▾") + " 관리자 영역";
+});
+const loginBtn = document.getElementById("loginBtn");
+const pw = document.getElementById("pw");
+const loginErr = document.getElementById("loginErr");
+function tryLogin(){
+  if(pw.value === ADMIN_PASSWORD){
+    document.getElementById("adminLogin").style.display = "none";
+    document.getElementById("dash").style.display = "block";
+    loadApplications();
+  }else{ loginErr.style.display = "block"; }
+}
+loginBtn.addEventListener("click", tryLogin);
+pw.addEventListener("keydown", function(e){ if(e.key === "Enter") tryLogin(); });
+pw.addEventListener("input", function(){ loginErr.style.display = "none"; });
+document.getElementById("refreshBtn").addEventListener("click", loadApplications);
+
+let CURRENT = [];
+async function loadApplications(){
+  const tblWrap = document.getElementById("tblWrap");
+  tblWrap.innerHTML = '<div class="empty">불러오는 중…</div>';
+  let list;
+  try{ list = await window.storage.list(KEY_PREFIX, true); }
+  catch(err){ tblWrap.innerHTML = '<div class="empty">신청 내역을 불러오지 못했습니다.</div>'; return; }
+  const keys = (list && list.keys) ? list.keys : [];
+  const rows = [];
+  for(const k of keys){
+    try{ const r = await window.storage.get(k, true); if(r && r.value){ rows.push(JSON.parse(r.value)); } }
+    catch(e){}
+  }
+  rows.sort(function(a,b){ return (b.submitted_at||"").localeCompare(a.submitted_at||""); });
+  CURRENT = rows;
+  document.getElementById("totalCount").textContent = rows.length;
+  renderStats(rows);
+  renderTable(rows);
+}
+
+function renderStats(rows){
+  const stats = document.getElementById("stats");
+  if(!rows.length){ stats.innerHTML = ""; return; }
+  function multiDist(){
+    const m = {};
+    rows.forEach(function(r){ (r.needs||[]).forEach(function(v){ m[v]=(m[v]||0)+1; }); });
+    return Object.entries(m).sort(function(a,b){ return b[1]-a[1]; });
+  }
+  function block(title, entries){
+    const max = Math.max.apply(null, entries.map(function(e){return e[1];}).concat([1]));
+    let html = '<div class="stat"><h4>'+title+'</h4>';
+    if(!entries.length){ html += '<div style="font-size:12.5px;color:var(--ink-soft)">해당 없음</div>'; }
+    entries.forEach(function(e){
+      const pct = Math.round(e[1]/max*100);
+      html += '<div class="barline"><span class="lbl">'+e[0]+'</span><span class="track"><span class="fill" style="width:'+pct+'%"></span></span><span class="n">'+e[1]+'</span></div>';
+    });
+    return html + '</div>';
+  }
+  stats.innerHTML = block("이용 희망 업무 (복수)", multiDist());
+}
+
+function esc(s){ return (s||"").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;"); }
+function fmtDateTime(iso){ if(!iso) return "-"; const d=new Date(iso); if(isNaN(d)) return "-";
+  const p=function(n){return String(n).padStart(2,"0");};
+  return d.getFullYear()+"."+p(d.getMonth()+1)+"."+p(d.getDate())+" "+p(d.getHours())+":"+p(d.getMinutes()); }
+
+function renderTable(rows){
+  const wrap = document.getElementById("tblWrap");
+  if(!rows.length){ wrap.innerHTML = '<div class="empty">아직 접수된 신청이 없습니다.</div>'; return; }
+  let html = '<table><thead><tr>'
+    + '<th>신청일시</th><th>OC명</th><th>사업자번호</th><th>연락처</th><th>이메일</th>'
+    + '<th>이용 희망 업무</th><th>요청사항</th>'
+    + '</tr></thead><tbody>';
+  rows.forEach(function(r){
+    html += '<tr>'
+      + '<td style="white-space:nowrap">'+fmtDateTime(r.submitted_at)+'</td>'
+      + '<td style="white-space:nowrap;color:var(--ink);font-weight:600">'+esc(r.oc_name)+'</td>'
+      + '<td style="white-space:nowrap">'+esc(r.biz_no)+'</td>'
+      + '<td style="white-space:nowrap">'+esc(r.phone)+'</td>'
+      + '<td>'+esc(r.email)+'</td>'
+      + '<td>'+esc((r.needs||[]).join(", "))+'</td>'
+      + '<td style="min-width:160px">'+esc(r.request)+'</td>'
+      + '</tr>';
+  });
+  wrap.innerHTML = html + '</tbody></table>';
+}
+
+document.getElementById("csvBtn").addEventListener("click", function(){
+  if(!CURRENT.length){ alert("내려받을 신청 내역이 없습니다."); return; }
+  const head = ["신청일시","OC명","사업자등록번호","연락처","이메일","이용희망업무","요청사항"];
+  const lines = [head];
+  CURRENT.forEach(function(r){
+    lines.push([ fmtDateTime(r.submitted_at), r.oc_name, r.biz_no, r.phone, r.email,
+                 (r.needs||[]).join(" / "), r.request ]);
+  });
+  const csv = "\uFEFF" + lines.map(function(row){
+    return row.map(function(c){ c=(c==null?"":String(c)); return '"'+c.replace(/"/g,'""')+'"'; }).join(",");
+  }).join("\r\n");
+  const blob = new Blob([csv], {type:"text/csv;charset=utf-8;"});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url; a.download = "OC_영업지원_이용신청_내역.csv";
+  document.body.appendChild(a); a.click(); document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+});
+</script>
